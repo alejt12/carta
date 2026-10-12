@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Para Laiza ✨</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffd6e0 50%, #ffb3c1 100%);
+            font-family: 'Georgia', 'Dancing Script', cursive, serif;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .contenedor {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+        h1 {
+            text-align: center;
+            color: #c22964;
+            font-size: 2.2rem;
+            margin: 30px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .decoracion {
+            text-align: center;
+            font-size: 28px;
+            margin: 10px 0;
+            letter-spacing: 10px;
+            color: #e85a8c;
+        }
+
+        /* ⏰ CUENTA REGRESIVA */
+        .reloj-caja {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 35px rgba(194, 41, 100, 0.25);
+            border: 3px solid #f8a5b8;
+            text-align: center;
+        }
+        .reloj-titulo {
+            color: #c22964;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+        .cuentaregresiva {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .bloque-tiempo {
+            background: linear-gradient(180deg, #ff758f 0%, #c22964 100%);
+            color: white;
+            width: 100px;
+            padding: 20px 10px;
+            border-radius: 15px;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.15);
+        }
+        .numero { font-size: 2rem; font-weight: bold; }
+        .etiqueta { font-size: 0.85rem; opacity: 0.9; margin-top: 5px; }
+        .mensaje-espera {
+            margin-top: 20px;
+            color: #884466;
+            font-style: italic;
+        }
+
+        /* 💌 PRE-CARTA */
+        .precarta {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            margin: 40px 0;
+            box-shadow: 0 8px 30px rgba(194, 41, 100, 0.18);
+            border-left: 5px solid #ff758f;
+        }
+        .precarta h2 {
+            color: #c22964;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .precarta p {
+            font-size: 18px;
+            line-height: 1.9;
+            color: #5a3e4c;
+            text-align: center;
+        }
+        .casi {
+            text-align: center;
+            font-size: 26px;
+            color: #c22964;
+            font-weight: bold;
+            margin: 25px 0;
+            animation: latido 1s infinite alternate;
+        }
+        @keyframes latido {
+            from { transform: scale(1); }
+            to { transform: scale(1.08); }
+        }
+
+        /* 📩 CARTA OFICIAL - CERRADA */
+        .carta-boton-caja {
+            text-align: center;
+            margin: 50px 0;
+        }
+        .boton-carta {
+            background: linear-gradient(135deg, #ff758f 0%, #c22964 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: not-allowed;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(194, 41, 100, 0.35);
+        }
+        .boton-carta:enabled {
+            cursor: pointer;
+            animation: brillo 2s infinite alternate;
+        }
+        @keyframes brillo {
+            from { box-shadow: 0 6px 20px rgba(194, 41, 100, 0.35); }
+            to { box-shadow: 0 6px 30px rgba(194, 41, 100, 0.6), 0 0 25px rgba(255, 117, 143, 0.5); }
+        }
+        .boton-carta:enabled:hover { transform: scale(1.05); }
+        .cerradura {
+            margin-top: 10px;
+            color: #884466;
+            font-size: 15px;
+        }
+
+        /* ✉️ CARTA ABIERTA */
+        .carta-abierta {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 45px 35px;
+            margin: 40px 0;
+            box-shadow: 0 10px 40px rgba(194, 41, 100, 0.3);
+            border: 2px solid #f8a5b8;
+            position: relative;
+        }
+        .carta-abierta.mostrar { display: block; animation: abrir 1s ease forwards; }
+        @keyframes abrir {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .carta-abierta h2 {
+            text-align: center;
+            color: #c22964;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+        .carta-abierta .contenido {
+            font-size: 18px;
+            line-height: 2;
+            color: #5a3e4c;
+        }
+        .firma {
+            margin-top: 30px;
+            text-align: right;
+            color: #c22964;
+            font-size: 20px;
+            font-style: italic;
+        }
+
+        /* 🎊 CONFETI Y CORAZONES */
+        .confeti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            z-index: 5;
+            animation: caer linear forwards;
+        }
+        .corazon-confeti {
+            position: fixed;
+            font-size: 20px;
+            z-index: 5;
+            animation: caerCorazon linear forwards;
+        }
+        @keyframes caer {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        @keyframes caerCorazon {
+            0% { transform: translateY(-10px); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        .corazon-flotante {
+            position: absolute;
+            font-size: 22px;
+            animation: flotar 3s infinite ease-in-out;
+        }
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <div class="decoracion">✿ ❤ ✿</div>
+    <h1>✨ Para mi hermosa Laiza ✨</h1>
+    <div class="decoracion">✿ ❤ ✿</div>
+
+    <!-- ⏰ CUENTA REGRESIVA -->
+    <div class="reloj-caja">
+        <h2 class="reloj-titulo">🎂 Tiempo para tu gran día</h2>
+        <div class="cuentaregresiva">
+            <div class="bloque-tiempo">
+                <div class="numero" id="dias">00</div>
+                <div class="etiqueta">Días</div>
+            </div>
+            <div class="bloque-tiempo">
+                <div class="numero" id="horas">00</div>
+                <div class="etiqueta">Horas</div>
+            </div>
+            <div class="bloque-tiempo">
+                <div class="numero" id="minutos">00</div>
+                <div class="etiqueta">Minutos</div>
+            </div>
+            <div class="bloque-tiempo">
+                <div class="numero" id="segundos">00</div>
+                <div class="etiqueta">Segundos</div>
+            </div>
+        </div>
+        <p class="mensaje-espera" id="mensaje-reloj">⏳ Esperando las 12:00 AM del 15 de Octubre...</p>
+    </div>
+
+    <!-- 💌 PRE-CARTA -->
+    <div class="precarta">
+        <h2>💛 Pequeñas palabras antes de tiempo</h2>
+        <p>
+            amor,<br><br>
+            hola amor estas palabras que leeras salen de lo mas profundo de mi corazon , primero estoy muy contento de poder celebrar otro cumpleaños junto a ti ahora si jajaj Mi niña hermosa ❤️🥹, sé que todavía no es tu cumpleaños, pero ya quería empezar a decirte lo mucho que significas para mí. 🫶🏻❤️ La verdad, no sé ni cómo explicarte todo lo que siento por ti, pero me hace muy feliz tenerte en mi vida. Eres una personita muy especial para mí y me encanta poder compartir momentos contigo. 🥹💗
+
+Ya falta poquito para tu día y de verdad espero que este nuevo año de vida te traiga muchas cosas bonitas, que cumplas todo lo que te propongas y que nunca te falten motivos para sonreír. Te mereces cosas muy lindas, Laiza, y ojalá la vida me permita seguir estando contigo para verte feliz y acompañarte en muchos momentos más. 🥰💘
+
+Y aunque todavía no llega tu cumpleaños, desde ahorita quiero que sepas que eres alguien muy importante para mí. Gracias por ser tú, por tu forma de ser y por hacer que mis días sean más bonitos. Te quiero muchísimo, mi niña. ❤️🥺
+
+Feliz precumpleaños, mi Laiza hermosa. 🎂💗 Ya quiero que llegue tu día para poder recordarte lo especial que eres para mí. Te mando un abrazote y muchísimos besitos. ❤️🫶🏻🥹 
+        </p>
+    </div>
+
+    <p class="casi">✨ ¡Ya casi! ✨<br>⏰ No falta nada... ⏰</p>
+
+    <!-- 📩 BOTÓN CARTA OFICIAL -->
+    <div class="carta-boton-caja">
+        <button class="boton-carta" id="botonAbrir" disabled>
+            📩 Abrir Carta Oficial 📩
+        </button>
+        <p class="cerradura" id="textoBoton">🔒 La carta se abrirá automáticamente a las 12:00 AM del 15 de Octubre</p>
+    </div>
+
+    <!-- ✉️ CARTA OFICIAL (CERRADA AL INICIO) -->
+    <div class="carta-abierta" id="cartaOficial">
+        <h2>💝 ¡Feliz Cumpleaños, Laiza! 💝</h2>
+        
+        <div class="corazon-flotante" style="top: 10px; right: 20px;">💕</div>
+        <div class="corazon-flotante" style="top: 30px; left: 20px; animation-delay: 0.5s;">💗</div>
+        
+        <div class="contenido">
+            Para la mujer más maravillosa,<br><br>
+            Para mi Laiza hermosa ❤️🎂
+
+Feliz cumpleaños, mi niña hermosa. ❤️🥹
+
+No sabes cuánto me hubiera gustado celebrar este día contigo de una forma diferente, hacer algo bonito para ti y poder verte feliz en un día tan especial. Tenía ganas de que las cosas fueran de otra manera, pero últimamente mi salud no me ha ayudado mucho y la verdad me ha costado más de lo que quisiera. Aun así, no quería dejar pasar tu cumpleaños sin escribirte algo que de verdad me nace del corazón, porque tú eres una persona muy especial para mí y mereces saberlo.
+
+A veces me pongo a pensar en todo el tiempo que llevamos conociéndonos y se me hace increíble que ya sean cinco años. Desde la secundaria hasta ahora, hemos compartido tantas cosas que, aunque algunas parezcan pequeñas, para mí tienen un valor enorme. Me acuerdo de cuando íbamos en la misma escuela y nos juntábamos en los recesos. Quizá en ese momento no imaginaba todo lo que íbamos a vivir ni cuánto tiempo después seguirías siendo parte de mi vida, pero hoy esos recuerdos me sacan una sonrisa.
+
+Hemos crecido, han cambiado muchas cosas y poco a poco cada quien ha ido tomando su propio camino, pero me da gusto haber coincidido contigo desde aquella etapa. Después llegó la universidad y hasta entramos juntos, pero después tú decidiste seguir otro camino y luchar por tu sueño de estudiar cosmetología. Y quiero que sepas que me da mucho gusto que estés buscando lo que realmente te gusta. Espero de corazón que te vaya muy bien, que nunca pierdas las ganas de salir adelante y que algún día puedas mirar atrás y sentirte orgullosa de todo lo que has logrado.
+
+Hoy, en tu cumpleaños, deseo que la vida te regale muchísimas cosas bonitas. Que tengas salud, tranquilidad, alegrías, personas que te quieran de verdad y muchas razones para sonreír. Que cumplas tus metas, que nunca dejes de creer en ti y que, incluso en los días difíciles, encuentres fuerzas para continuar. Porque mereces ser feliz, Laiza, y mereces que te pasen cosas bonitas.
+
+También quiero que sepas que, aunque a veces no pueda hacer todo lo que me gustaría, eso no significa que no me importe. Créeme que me hubiera encantado poder celebrar contigo de otra manera, darte un abrazo y hacer que este día fuera todavía más especial. Me cuesta aceptar que mi salud a veces me limite y no me permita hacer las cosas como quisiera, pero estoy haciendo lo que puedo con lo que tengo en este momento. Y si algo no quería, era quedarme sin decirte lo mucho que te aprecio.
+
+Cinco años no se dicen tan fácil. Son recuerdos, pláticas, risas, recesos y un montón de momentos que forman parte de nuestra historia. Me da gusto haber coincidido contigo desde la secundaria y poder seguir sabiendo de ti hasta el día de hoy. No sé qué nos tenga preparado la vida más adelante, pero sí sé que me alegra haberte conocido y que guardo con mucho cariño todo lo que hemos compartido.
+
+Espero que hoy sonrías mucho, que te consientan, que disfrutes tu día y que te sientas muy querida. Nunca olvides lo valiosa que eres ni dudes de todo lo que puedes conseguir. Sigue persiguiendo tus sueños y no dejes que nada te haga pensar que no eres capaz de lograrlos.
+
+Feliz cumpleaños, Laiza. ❤️🎂
+
+Gracias por formar parte de estos cinco años de mi vida y por todos esos recuerdos que, aunque parezcan sencillos, significan mucho para mí. Perdón si esta vez no pude celebrar contigo como me hubiera gustado, pero quería regalarte estas palabras para que supieras que me acordé de ti y que de corazón deseo que seas muy feliz.
+
+Te mando un abrazo enorme, de esos que espero poder darte en persona, y deseo que este nuevo año de vida venga lleno de cosas bonitas para ti.
+
+Con muchísimo cariño, para ti, mi Laiza hermosa.  🎶 Las mañanitas para mi Laiza hermosa ❤️🎂
+
+Hoy es un día muy bonito,
+hoy te vengo a celebrar,
+porque cumple años mi niña,
+a quien tanto quiero amar.
+
+Despierta, mi Laiza hermosa,
+que hoy te quiero felicitar,
+que la vida te dé alegrías
+y mil sueños por alcanzar.
+
+Cinco años han pasado,
+desde aquella secundaria,
+y entre risas y recuerdos
+te volviste alguien muy especial.
+
+Que se cumplan tus deseos,
+que nunca te falte amor,
+que tus sueños de cosmetología
+te llenen de orgullo y emoción.
+
+Y aunque hoy no esté a tu lado
+como yo quisiera estar,
+te dedico estas palabras
+porque te quiero abrazar.
+
+¡Feliz cumpleaños, mi Laiza! ❤️🎂
+Que seas feliz toda la vida,
+que nunca te falten sonrisas
+y que siempre tengas amor.
+
+Con mucho cariño, mi niña,
+hoy te quiero recordar
+que estos cinco años contigo
+son recuerdos que voy a atesorar. ❤️🥹 ❤️🫶🏻 . 🎂✨<br><br>
+          ❤️
+        </div>
+        
+        <p class="firma">— Tuyo, con todo mi corazón 💌</p>
+    </div>
+</div>
+
+<script>
+    // 🎯 FECHA EXACTA DE APERTURA: 15 de Octubre de 2026, 00:00:00
+    const FECHA_APERTURA = new Date('2026-10-15T00:00:00');
+    let cartaAbierta = false;
+
+    // === CUENTA REGRESIVA ===
+    function actualizarReloj() {
+        const ahora = new Date();
+        const diferencia = FECHA_APERTURA - ahora;
+
+        if (diferencia <= 0) {
+            // LLEGÓ LA HORA 🎉
+            document.getElementById('dias').textContent = '00';
+            document.getElementById('horas').textContent = '00';
+            document.getElementById('minutos').textContent = '00';
+            document.getElementById('segundos').textContent = '00';
+            document.getElementById('mensaje-reloj').innerHTML = '🎉 ¡ES TU DÍA! 🎉';
+            
+            activarBoton();
+            if (!cartaAbierta) abrirCarta();
+            return;
+        }
+
+        // Calcular tiempo restante
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+        // Mostrar con ceros a la izquierda
+        document.getElementById('dias').textContent = String(dias).padStart(2, '0');
+        document.getElementById('horas').textContent = String(horas).padStart(2, '0');
+        document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
+        document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
+    }
+
+    // === ACTIVAR BOTÓN ===
+    function activarBoton() {
+        const boton = document.getElementById('botonAbrir');
+        const texto = document.getElementById('textoBoton');
+        boton.disabled = false;
+        boton.textContent = '💌 ¡La carta te espera, Laiza! 💌';
+        texto.textContent = '✨ ¡Ya puedes abrir tu carta! ✨';
+        boton.onclick = abrirCarta;
+    }
+
+    // === ABRIR CARTA + CONFETI ===
+    function abrirCarta() {
+        if (cartaAbierta) return;
+        cartaAbierta = true;
+        
+        const carta = document.getElementById('cartaOficial');
+        carta.classList.add('mostrar');
+        
+        // Lanzar confeti y corazones
+        lanzarConfeti();
+        lanzarCorazones();
+    }
+
+    // 🎊 EFECTOS VISUALES
+    function lanzarConfeti() {
+        const colores = ['#ff758f', '#c22964', '#ffd700', '#ff6b9d', '#ffb347', '#ffffff'];
+        for (let i = 0; i < 120; i++) {
+            setTimeout(() => {
+                const confeti = document.createElement('div');
+                confeti.classList.add('confeti');
+                confeti.style.left = `${Math.random() * 100}vw`;
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = `${Math.random() * 8 + 5}px`;
+                confeti.style.height = `${Math.random() * 8 + 5}px`;
+                confeti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                const duracion = Math.random() * 3 + 2;
+                confeti.style.animationDuration = `${duracion}s`;
+                document.body.appendChild(confeti);
+                
+                setTimeout(() => confeti.remove(), duracion * 1000);
+            }, i * 25);
+        }
+    }
+
+    function lanzarCorazones() {
+        const corazones = ['❤️', '💕', '💗', '💖', '💘', '🌹', '✨'];
+        for (let i = 0; i < 60; i++) {
+            setTimeout(() => {
+                const corazon = document.createElement('div');
+                corazon.classList.add('corazon-confeti');
+                corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
+                corazon.style.left = `${Math.random() * 100}vw`;
+                corazon.style.fontSize = `${Math.random() * 15 + 15}px`;
+                const duracion = Math.random() * 4 + 3;
+                corazon.style.animationDuration = `${duracion}s`;
+                document.body.appendChild(corazon);
+                
+                setTimeout(() => corazon.remove(), duracion * 1000);
+            }, i * 40);
+        }
+    }
+
+    // Iniciar reloj y actualizar cada segundo
+    actualizarReloj();
+    setInterval(actualizarReloj, 1000);
+</script>
+
+</body>
+</html>
